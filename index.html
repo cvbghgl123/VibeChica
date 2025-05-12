@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeChica - App Support</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a; /* Dark background to complement black sections */
+            color: #e0e0e0; /* Light text for readability */
+        }
+        header {
+            background-color: #000000; /* Black background */
+            color: #ffffff; /* White text for contrast */
+            text-align: center;
+            padding: 2em 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+            background: #000000; /* Black background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            color: #e0e0e0; /* Light text for readability */
+        }
+        h2 {
+            color: #1e90ff; /* Blue for headings to maintain visual hierarchy */
+        }
+        a {
+            color: #1e90ff; /* Blue for links */
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .message-board {
+            margin-top: 20px;
+        }
+        .message {
+            border-bottom: 1px solid #444; /* Darker border for black background */
+            padding: 10px 0;
+        }
+        .message:last-child {
+            border-bottom: none;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input, textarea {
+            padding: 10px;
+            border: 1px solid #444; /* Darker border for inputs */
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: #222; /* Dark input background */
+            color: #e0e0e0; /* Light text */
+        }
+        button {
+            background-color: #1e90ff; /* Blue button */
+            color: #ffffff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0066cc; /* Darker blue on hover */
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #000000; /* Black background */
+            color: #ffffff; /* White text */
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            .section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>VibeChica - App Support</h1>
+    </header>
+
+    <div class="container">
+        <!-- App Overview -->
+        <div class="section">
+            <h2>About VibeChica</h2>
+            <p>VibeChica is a fun and safe iOS app designed for users aged 4 and above, offering a delightful experience with no login or personal information required. Purchase it once through the Apple App Store and enjoy full access to all features.</p>
+            <p><a href="https://www.apple.com/app-store/" target="_blank">Download VibeChica on the App Store</a></p>
+        </div>
+
+        <!-- Support Information -->
+        <div class="section">
+            <h2>Support</h2>
+            <p>If you encounter issues with VibeChica, try the following:</p>
+            <ul>
+                <li><strong>Installation Issues</strong>: Ensure your iOS device is updated to the latest version and check your internet connection.</li>
+                <li><strong>Payment Problems</strong>: Verify your payment method in the App Store and contact <a href="https://support.apple.com/billing" target="_blank">Apple Support</a> for billing or refund issues.</li>
+                <li><strong>App Crashes</strong>: Restart your device and reinstall the app if necessary.</li>
+            </ul>
+            <p>For further assistance, contact the developer or use the message board below.</p>
+        </div>
+
+        <!-- Privacy Statement -->
+        <div class="section">
+            <h2>Privacy</h2>
+            <p>VibeChica does not collect, store, process, or transmit any user data, including personal or non-personal information. This ensures your privacy and the safety of children under 13, in compliance with the Children’s Online Privacy Protection Act (COPPA). Parents are encouraged to supervise children’s use of the App.</p>
+            <p>View our full <a href="https://github.com/cvbghgl123/VibeChica/blob/main/Privacy%20Policy.pdf" target="_blank">Privacy Policy</a>, <a href="https://github.com/cvbghgl123/VibeChica/blob/main/Terms%20of%20Service.pdf" target="_blank">Terms of Service</a>, and <a href="https://github.com/cvbghgl123/VibeChica/blob/main/Purchase%20Terms.pdf" target="_blank">Purchase Terms</a> for more details.</p>
+        </div>
+
+        <!-- Message Board -->
+        <div class="section">
+            <h2>Message Board</h2>
+            <p>Have feedback or need help? Submit a message below. Messages are stored locally on your device and are not collected or transmitted to any server.</p>
+            <form id="messageForm">
+                <input type="text" id="name" placeholder="Your Name (Optional)" maxlength="50">
+                <textarea id="message" placeholder="Your Message" rows="4" maxlength="500" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+            <div class="message-board" id="messageBoard"></div>
+        </div>
+
+        <!-- Developer Contact -->
+        <div class="section">
+            <h2>Contact Developer</h2>
+            <p>For direct inquiries, reach out to me at: <a href="mailto:459107896@qq.com">459107896@qq.com</a></p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Dong ZHAO. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Clear existing messages in localStorage on page load
+        localStorage.removeItem('vibechicaMessages');
+
+        // Load messages from localStorage (will be empty initially)
+        function loadMessages() {
+            const messages = JSON.parse(localStorage.getItem('vibechicaMessages')) || [];
+            const messageBoard = document.getElementById('messageBoard');
+            messageBoard.innerHTML = '';
+            messages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = 'message';
+                messageDiv.innerHTML = `
+                    <strong>${msg.name || 'Anonymous'}</strong> (${new Date(msg.date).toLocaleString()}): 
+                    <p>${msg.text.replace(/\n/g, '<br>')}</p>
+                `;
+                messageBoard.appendChild(messageDiv);
+            });
+        }
+
+        // Save message to localStorage
+        function saveMessage(name, text) {
+            const messages = JSON.parse(localStorage.getItem('vibechicaMessages')) || [];
+            messages.unshift({ name, text, date: new Date().toISOString() });
+            localStorage.setItem('vibechicaMessages', JSON.stringify(messages));
+        }
+
+        // Handle form submission
+        document.getElementById('messageForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const message = document.getElementById('message').value.trim();
+            if (message) {
+                saveMessage(name, message);
+                loadMessages();
+                this.reset(); // Clear form
+            }
+        });
+
+        // Load messages on page load (will be empty due to clear)
+        window.onload = loadMessages;
+    </script>
+</body>
+</html>
